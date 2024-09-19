@@ -5,11 +5,11 @@ if (!localStorage.getItem(`EventAnnouncementFormats`)) {
 `@everyone Attention, agent! You have been requested to approach an event upon the call of duty.
 
 ### <:EG_Game:1050486929805824010> Event \` {ID} \`
-# <:SWAT:1204007959080861697> {Event}
+# <:SWAT:1204007959080861697> {EventTitle}
 ## <:SWATSalute:1050485166080000071> <t:{Timestamp}:F>, <t:{Timestamp}:R>
 > _"{Description}"_
 
-<:EG_Game:1050486929805824010> **[{CPPS.Name}]({CPPS.Link} "Click or tap to redirect yourself to {CPPS.Name}!")** {CPPS.Link}
+<:EG_Game:1050486929805824010> **[{CPPS.Name}:]({CPPS.Link} "Click or tap to redirect yourself to {CPPS.Name}!")** {CPPS.Link}
 ⏰ **Time:** <t:{Timestamp}:F>, <t:{Timestamp}:R>
 <:SWATGoggles:1050485132651417650> **Server:** {Server}
 <:EI_Igloo:1050487002589569065> **Room:** {Room}
