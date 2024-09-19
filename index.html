@@ -1,0 +1,298 @@
+<!--
+
+  SWAT Event Generator
+  Curated and maintained by the SWAT Corporation.
+
+-->
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWAT Event Generator</title>
+    <link rel="stylesheet" href="app.css">
+
+  </head>
+
+  <body>
+
+    <main>
+
+      <div class="upper-content">
+
+        <div>
+
+          <h1>SWAT Event Generator</h1>
+          <p>Powered by <b>the SWAT Corporation</b>!</p>
+
+        </div>
+
+        <hr>
+
+        <div>
+
+          <table>
+            <tbody>
+
+              <tr>
+                <th>Property</th>
+                <th>Value</th>
+              </tr>
+              <tr>
+                <td>
+                  <label>Event ID</label>
+                </td>
+                <td>
+                  <input type="number" name="ID" value="180" step="1" min="0" oninput="EditEvent(this)">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label>Event Title</label>
+                </td>
+                <td>
+                  <input maxlength="32" name="Title" value="Music Jam" oninput="EditEvent(this)">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label>Event Timestamp</label>
+                </td>
+                <td>
+                  <input type="number" name="Timestamp" value="1724000400" step="900" oninput="EditEvent(this)">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label>Event Link</label>
+                </td>
+                <td>
+                  <input type="link" name="Link" value="https://discord.com/events/715178450716983326/1268168052738887785" oninput="EditEvent(this)">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label>Event Description</label>
+                </td>
+                <td>
+                  <input name="Description" value="Party time!" oninput="EditEvent(this)">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label>Event CPPS</label>
+                </td>
+                <td>
+                  <select name="CPPS" oninput="EditEvent(this)">
+                    <option value="CPAB" selected>CPA Battleground</option>
+                    <option value="CPJ">CP Journey</option>
+                    <option value="NCP">New CP</option>
+                    <option value="CPAv">CP Avalanche</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label>Event Server</label>
+                </td>
+                <td>
+                  <input name="Server" value="Battleground" oninput="EditEvent(this)" list="GameServers">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label>Event Room</label>
+                </td>
+                <td>
+                  <input name="Room" value="Snow Forts" oninput="EditEvent(this)" list="GameServers">
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+          <br>
+
+          <button onclick="ClearInputs()">Clear All</button>
+
+        </div>
+
+      </div>
+
+      <hr>
+
+      <div class="lower-content">
+
+        <h2>Result</h2>
+        <button onclick="CopyAnnouncement(document.querySelector(`[name='Result']`))">Copy</button>
+
+        <br>
+        <br>
+
+        <pre name="Result" contenteditable>…</pre>
+
+        <hr>
+
+        <h2>Formats</h2>
+        <p>Do you wish to use a particular format for setting an event? If so, please set your format here.</p>
+
+        <button onclick="OpenPopup(`#EventAnnouncementFormatCreator`)">Create</button>
+        <button onclick="DeleteAllEventAnnouncementFormats()">Delete All</button>
+        <button onclick="OpenPopup(`#EventAnnouncementFormatManager`)">Import/Export</button>
+
+        <br>
+        <br>
+
+        <div id="FormatsList">
+
+
+
+        </div>
+
+      </div>
+
+    </main>
+
+    <div id="EventAnnouncementFormatCreator" class="Popup">
+
+      <h3>Event Announcement Format Creator</h3>
+      <button onclick="CopyAnnouncement(document.querySelector(`FormatCreator`))">Copy</button>
+      <button onclick="CreateEventAnnouncementFormat(document.querySelector(`#FormatCreator`).innerText)">Create</button>
+      <button onclick="ClosePopup(`#EventAnnouncementFormatCreator`)">Exit</button>
+      <pre id="FormatCreator" contenteditable>@everyone
+
+</pre>
+      <p><b>Variables:</b> <code>{ID}</code>, <code>{Title}</code>, <code>{Timestamp}</code>, <code>{Link}</code>, <code>{Description}</code>, <code>{CPPS.Name}</code>, <code>{CPPS.Link}</code>, <code>{Server}</code>, <code>{Room}</code></p>
+
+    </div>
+
+    <div id="EventAnnouncementFormatManager" class="Popup">
+
+      <h3>Import/Export Data</h3>
+      <button onclick="ClosePopup(`#EventAnnouncementFormatManager`)">Exit</button>
+      <br>
+      <br>
+      <textarea id="FormatsListEditor" oninput="localStorage.setItem('EventAnnouncementFormats', this.value)" contenteditable>[]</textarea>
+      <p>Changing the above data will overwrite any existing data. Use cautiously! It must be a valid JSON array notation. If the event generator breaks after changing this, you might have enterred invalid JSON. You will need to fix the errors or delete all data to fix this. <b>Any change is automatically saved.</b></p>
+
+    </div>
+
+    <datalist id="GameRooms">
+
+      <option value="Snow Forts">
+      <option value="Iceberg">
+      <option value="Stadium">
+      <option value="Inside Dojo">
+      <option value="Inside Mine">
+      <option value="Forest">
+      <option value="Dock">
+      <option value="Beach">
+      <option value="Ski Village">
+      <option value="Cove">
+
+    </datalist>
+
+    <datalist id="GameServers">
+
+      <option value="Abracadabra">
+      <option value="Abominable">
+      <option value="Alaska">
+      <option value="Ascent">
+      <option value="Avalanche">
+      <option value="Aurora">
+      <option value="Battleground">
+      <option value="Beanie">
+      <option value="Belly Slide">
+      <option value="Blizzard">
+      <option value="Bouilotte">
+      <option value="Brumby">
+      <option value="Breeze">
+      <option value="Cabin">
+      <option value="Chinook">
+      <option value="Christmas">
+      <option value="Cloudy">
+      <option value="Cold Front">
+      <option value="Cozy">
+      <option value="Crystal">
+      <option value="Deep Freeze">
+      <option value="Deu Branco">
+      <option value="Down Under">
+      <option value="Fiesta">
+      <option value="Fjord">
+      <option value="Flippers">
+      <option value="Fog">
+      <option value="Frostbite">
+      <option value="Frosty">
+      <option value="Frozen">
+      <option value="Geladeira">
+      <option value="Glaciar">
+      <option value="Great White">
+      <option value="Half Pipe">
+      <option value="Hockey">
+      <option value="Hot Chocolate">
+      <option value="Husky">
+      <option value="Ice Berg">
+      <option value="Ice Breaker">
+      <option value="Icicle">
+      <option value="Jackhammer">
+      <option value="Jerusalem">
+      <option value="Klondike">
+      <option value="Kościuszko">
+      <option value="Mammoth">
+      <option value="Marshmallow">
+      <option value="Matterhorn">
+      <option value="Migrator">
+      <option value="Mittens">
+      <option value="Mountain">
+      <option value="North Pole">
+      <option value="Northern Lights">
+      <option value="Olympia">
+      <option value="Outback">
+      <option value="Parka">
+      <option value="Permafrost">
+      <option value="Pine Needles">
+      <option value="Polar">
+      <option value="Puddle">
+      <option value="Rainbow">
+      <option value="Rainy">
+      <option value="Rome">
+      <option value="Sabertooth">
+      <option value="Sherbet">
+      <option value="Sled">
+      <option value="Sleet">
+      <option value="Slushy">
+      <option value="Snow Board">
+      <option value="Snow Fort">
+      <option value="Snow Globe">
+      <option value="Snow River">
+      <option value="Snowy">
+      <option value="Southern Lights">
+      <option value="Sparkle">
+      <option value="Summit">
+      <option value="Sub Zero">
+      <option value="Skates">
+      <option value="Tundra">
+      <option value="Tea">
+      <option value="Thermal">
+      <option value="Toboggan">
+      <option value="Tuxedo">
+      <option value="Vanilla">
+      <option value="Ventilador">
+      <option value="Warzone">
+      <option value="White House">
+      <option value="Xat">
+      <option value="Yeti">
+      <option value="Yukon">
+      <option value="Zipline">
+
+    </datalist>
+
+    <script src="./index.js"></script>
+
+  </body>
+
+</html>
