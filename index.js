@@ -1,11 +1,11 @@
-let EventAnnouncementFormats;
+localStorage.removeItem(`EventAnnouncementFormats`);
 
-if (!localStorage.getItem(`EventAnnouncementFormats`)) {
-  EventAnnouncementFormats = [
-`@everyone Attention, agent! You have been requested to approach an event upon the call of duty.
+let EventAnnouncementFormats = [];
+
+MainFormat = `@everyone Attention, agent! You have been requested to approach an event upon the call of duty.
 
 ### <:EG_Game:1050486929805824010> Event \` {ID} \`
-# <:SWAT:1204007959080861697> {EventTitle}
+# <:SWAT:1204007959080861697> {Title}
 ## <:SWATSalute:1050485166080000071> <t:{Timestamp}:F>, <t:{Timestamp}:R>
 > _"{Description}"_
 
@@ -18,11 +18,12 @@ if (!localStorage.getItem(`EventAnnouncementFormats`)) {
 > If so, please click or tap on \` Interested \`!
 > {Link}
 
-<:ET_Music:1050487576814960680> **See you there!**`
-];
-  localStorage.setItem(`EventAnnouncementFormats`, JSON.stringify(EventAnnouncementFormats));
+<:ET_Music:1050487576814960680> **See you there!**`;
+
+if (!localStorage.getItem(`Formats`)) {
+  localStorage.setItem(`Formats`, JSON.stringify(EventAnnouncementFormats));
 } else {
-  EventAnnouncementFormats = JSON.parse(localStorage.getItem(`EventAnnouncementFormats`));
+  EventAnnouncementFormats = JSON.parse(localStorage.getItem(`Formats`));
 }
 
 let EventData = {
@@ -39,7 +40,7 @@ let EventData = {
   Room: ``
 };
 
-let Format = EventAnnouncementFormats[0];
+let Format = MainFormat;
 
 function EditEvent(Input) {
   let Parameter = Input.name;
@@ -118,7 +119,7 @@ function ClosePopup(QuerySelector) {
 
 function CreateEventAnnouncementFormat(Source) {
   EventAnnouncementFormats.push(Source);
-  localStorage.setItem(`EventAnnouncementFormats`, JSON.stringify(EventAnnouncementFormats));
+  localStorage.setItem(`Formats`, JSON.stringify(EventAnnouncementFormats));
   AddEventAnnouncementFormatToList(Source);
   ClosePopup(`#EventAnnouncementFormatCreator`);
 };
@@ -135,13 +136,14 @@ function AddEventAnnouncementFormatToList(Format) {
 };
 
 function DeleteAllEventAnnouncementFormats() {
-  localStorage.removeItem('EventAnnouncementFormats');
+  localStorage.removeItem('Formats');
   EventAnnouncementFormats = [];
   RegenerateEventAnnouncementFormatList();
 };
 
 function RegenerateEventAnnouncementFormatList() {
   document.querySelector(`#FormatsList`).innerHTML = ``;
+  AddEventAnnouncementFormatToList(MainFormat);
   for (let i = 0; i < EventAnnouncementFormats.length; i++) {
     AddEventAnnouncementFormatToList(EventAnnouncementFormats[i]);
   }
@@ -176,8 +178,10 @@ function ForceUpdate() {
 
 ForceUpdate();
 
+AddEventAnnouncementFormatToList(MainFormat);
+
 for (let i = 0; i < EventAnnouncementFormats.length; i++) {
   AddEventAnnouncementFormatToList(EventAnnouncementFormats[i]);
 }
 
-document.querySelector(`#FormatsListEditor`).value = localStorage.getItem(`EventAnnouncementFormats`);
+document.querySelector(`#FormatsListEditor`).value = localStorage.getItem(`Formats`);
